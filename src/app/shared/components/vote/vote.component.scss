@@ -1,0 +1,103 @@
+.btn-post {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  color: white;
+  border-radius: 40px;
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: #252a2e; /* Button background color */
+}
+
+.btn-comment {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  color: white;
+  border-radius: 40px;
+  padding: 5px 10px;
+  margin: 0 5px;
+  background-color: unset; /* Button background color */
+}
+
+.btn-upvoted-post {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  background-color: #d93900; /* Button background color */
+  color: white;
+  border-radius: 40px;
+  padding: 5px 10px;
+  margin: 0 5px;
+}
+
+.btn-downvoted-post {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  background-color: #6a5cff; /* Button background color */
+  color: white;
+  border-radius: 40px;
+  padding: 5px 10px;
+  margin: 0 5px;
+}
+
+.btn-vote:hover {
+  background-color: #33393f; /* Button background color */
+}
+
+.btn-upvote,
+.btn-upvoted-upvote-post,
+.btn-downvoted-upvote {
+  padding: 0px;
+  margin-right: 8px;
+  color: white;
+  border-radius: 100%;
+  border: none;
+}
+
+.btn-upvoted-upvote-comment {
+  padding: 0px;
+  margin-right: 8px;
+  color: red;
+  border-radius: 100%;
+  border: none;
+}
+
+.btn-downvoted-downvote-comment {
+  padding: 0px;
+  margin-left: 8px;
+  color: #6a5cff;
+  border-radius: 100%;
+  border: none;
+}
+
+.btn-downvote,
+.btn-upvoted-downvote,
+.btn-downvoted-downvote {
+  padding: 0px;
+  margin-left: 8px;
+  color: white;
+  border-radius: 100%;
+  border: none;
+}
+
+.upvote-count {
+  font-weight: 500;
+}
+
+.btn-upvote:hover {
+  color: red;
+}
+
+.btn-upvoted-upvote-post:hover,
+.btn-downvoted-downvote:hover,
+.btn-downvoted-upvote:hover,
+.btn-upvoted-downvote:hover {
+  background-color: white;
+  color: #252a2e;
+}
+
+.btn-downvote:hover {
+  color: #9580ff;
+}

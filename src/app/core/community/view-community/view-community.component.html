@@ -1,0 +1,89 @@
+<div class="main-container d-flex">
+  <div
+    class="content-container flex-grow-1 d-flex flex-column"
+    *ngIf="community"
+  >
+    <div class="community-banner">
+      <img
+        [src]="community.banner_img_src"
+        alt="Community Banner"
+        class="img-fluid"
+      />
+    </div>
+    <div class="community-header d-flex align-items-center p-3">
+      <div class="community-icon me-3">
+        <img
+          [src]="community.icon_img_src"
+          alt="Community Icon"
+          class="img-fluid rounded-circle"
+        />
+      </div>
+      <div class="community-name flex-grow-1">
+        <h4 class="mb-0">r/{{ community.community_name }}</h4>
+      </div>
+      <div class="community-actions">
+        <button class="btn btn-outline-primary me-2" (click)="goToCreatePost()">
+          ＋ Create a post
+        </button>
+        <button
+          class="btn btn-primary me-2"
+          *ngIf="!isMember"
+          (click)="joinCommunity()"
+        >
+          Join
+        </button>
+
+        <button
+          class="btn btn-primary me-2"
+          *ngIf="isMember"
+          (click)="joinCommunity()"
+        >
+          Joined
+        </button>
+      </div>
+    </div>
+    <div
+      class="community-content-container d-flex flex-grow-1 p-3"
+      style="padding-top: 0px !important; margin-right: 270px"
+    >
+      <div class="community-content flex-grow-1 me-3">
+        <div class="community-tabs mb-3">
+          <div class="dropdown">
+            <button
+              class="btn dropdown-toggle btn-sort"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              style="color: white; border: 1px solid white; border-radius: 40px"
+            >
+              {{ sortMethod }}
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" (click)="sendEvent('New')">New</a>
+              </li>
+              <li>
+                <a class="dropdown-item" (click)="sendEvent('Most Upvoted')"
+                  >Most Upvoted</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="fixed-size-container">
+          <app-view-communiy-post
+            [communityId]="community._id!"
+            [isModerator]="isModerator"
+            [sortPost]="sortPost"
+          ></app-view-communiy-post>
+        </div>
+        <!-- Community posts and content will go here -->
+      </div>
+      <app-community-info-card
+        [community]="community"
+        [isModerator]="isModerator"
+        [moderator]="moderator"
+      ></app-community-info-card>
+    </div>
+  </div>
+</div>

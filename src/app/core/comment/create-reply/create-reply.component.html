@@ -1,0 +1,49 @@
+<div class="main">
+  <div class="extra-content" *ngIf="isExpanded">
+    <form #commentForm="ngForm" (ngSubmit)="createComment()">
+      <textarea
+        placeholder="Add a comment"
+        (focus)="expandCommentBox()"
+        [(ngModel)]="commentText"
+        (input)="adjustHeight(); updateCharCount()"
+        #commentBoxer
+        #commentBox="ngModel"
+        name="commentText"
+        required
+        minlength="1"
+        maxlength="500"
+      ></textarea>
+      <div
+        *ngIf="commentBox.invalid && (commentBox.dirty || commentBox.touched)"
+      >
+        <div *ngIf="commentBox.errors?.['required']" class="error-text">
+          Comment is necessary.
+        </div>
+      </div>
+      <div class="char-count" *ngIf="charCount > 0" style="margin-bottom: 8px">
+        {{ charCount }}/500 characters
+      </div>
+      <div
+        class="button-group"
+        style="
+          display: flex;
+          align-items: flex-end;
+          justify-content: flex-end; /* Aligns buttons to the right */
+        "
+      >
+        <div class="buttons">
+          <button class="btn btn-cancel" (click)="cancelComment()">
+            Cancel
+          </button>
+          <button
+            class="btn btn-comment"
+            type="submit"
+            [disabled]="commentForm.invalid"
+          >
+            Comment
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

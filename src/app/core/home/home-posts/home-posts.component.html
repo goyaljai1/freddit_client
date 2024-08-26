@@ -1,0 +1,188 @@
+<div class="main-container d-flex">
+  <div *ngIf="posts" class="home-posts">
+    <div *ngFor="let post of posts">
+      <div
+        *ngIf="!post.is_deleted && post.status === 'approved'"
+        class="post-container"
+        (click)="postService.openPost($event, post)"
+      >
+        <div class="post-header" (click)="postService.openPost($event, post)">
+          <div class="user-info">
+            <img
+              [src]="post.community_id.icon_img_src"
+              alt="User Profile Picture"
+              class="user-image"
+              (click)="communityService.displayCommunity(post.community_id._id)"
+            />
+            <div
+              class="user-name"
+              (click)="communityService.displayCommunity(post.community_id._id)"
+            >
+              r/{{ post.community_id.community_name }}
+            </div>
+            <div class="post-time">
+              • {{ postService.timeAgo(post.time_of_posting) }}
+            </div>
+          </div>
+          <button
+            class="dropdown-btn"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            •••
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a
+                class="dropdown-item"
+                (click)="saveUnsavePost(post._id, userId!, 'push')"
+                *ngIf="!post.isSaved"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  class="bi bi-bookmark"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"
+                  />
+                </svg>
+                <span style="margin-left: 10px">Save</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                (click)="saveUnsavePost(post._id, userId!, 'pop')"
+                *ngIf="post.isSaved"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  class="bi bi-bookmark-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"
+                  />
+                </svg>
+                <span style="margin-left: 10px">Saved</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                *ngIf="userId === post.creator_id"
+                (click)="postService.editPost(post._id)"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  class="bi bi-pencil"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"
+                  />
+                </svg>
+                <span style="margin-left: 10px">Edit</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <app-post-template
+          [post]="post"
+          [isModerator]="false"
+        ></app-post-template>
+        <div class="react-btn-grp" (click)="postService.openPost($event, post)">
+          <div class="react-btn-grp">
+            <app-vote
+              [entity]="{
+                vote_count: post.vote_count,
+                entity_id: post._id,
+                entity_type: 'post'
+              }"
+            ></app-vote>
+            <button
+              class="btn btn-comment"
+              (click)="postService.openPost($event, post)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                class="bi bi-chat-square"
+                viewBox="0 0 16 16"
+                (click)="postService.openPost($event, post)"
+              >
+                <path
+                  d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"
+                />
+              </svg>
+              <span
+                style="margin-left: 8px; font-weight: 500"
+                (click)="postService.openPost($event, post)"
+              >
+                {{ post.comment_count }}</span
+              >
+            </button>
+            <button
+              class="btn btn-share"
+              id="liveToastBtn"
+              (click)="helperService.copyText('post/' + post._id)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                class="bi bi-share"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"
+                />
+              </svg>
+              <span style="margin-left: 8px; font-weight: 500"> Share</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="popular-communities" *ngIf="popularCommunites">
+    <h5 style="font-size: 1rem">POPULAR COMMUNITIES</h5>
+    <div
+      class="popular-communities-list"
+      *ngFor="let community of popularCommunites"
+      style="margin-bottom: 10px; display: flex; align-items: center"
+    >
+      <img
+        [src]="community.icon_img_src"
+        alt=""
+        class="community-icon"
+        width="30px"
+        height="30px"
+        style="border-radius: 100%; margin-right: 10px; cursor: pointer"
+        (click)="communityService.displayCommunity(community._id)"
+      />
+      <div
+        class="community-info"
+        (click)="communityService.displayCommunity(community._id)"
+      >
+        <div class="community-name">r/{{ community.community_name }}</div>
+        <div class="community-members">{{ community.memberCount }} members</div>
+      </div>
+    </div>
+  </div>
+</div>

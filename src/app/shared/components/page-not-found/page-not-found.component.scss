@@ -1,0 +1,44 @@
+.page-not-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: unset;
+  font-family: Arial, sans-serif;
+  color: rgba(255, 255, 255, 0.774);
+}
+
+.page-not-found div {
+  text-align: center;
+  margin-top: -60px;
+  padding: 20px;
+  background-color: #282c1f8f;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+}
+
+.page-not-found img {
+  width: 300px;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+.go-to-home {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.home {
+  padding: 10px 20px;
+  background-color: #ff4500;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.home:hover {
+  background-color: #d44c15;
+}

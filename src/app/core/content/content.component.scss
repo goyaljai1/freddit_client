@@ -1,0 +1,16 @@
+.main-container {
+  padding-top: 60px;
+
+  display: flex;
+  min-width: 100% !important;
+}
+
+.main {
+  width: 100%;
+  margin-left: 250px;
+}
+
+app-sidebar {
+  position: fixed;
+  left: 0;
+}

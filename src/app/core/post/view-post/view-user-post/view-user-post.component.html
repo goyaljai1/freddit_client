@@ -1,0 +1,215 @@
+<div *ngIf="posts">
+  <div *ngFor="let post of posts">
+    <div
+      *ngIf="!post.is_deleted && (post.status === 'approved' || isSelfProfile)"
+      class="post-container"
+      (click)="openPost($event, post)"
+    >
+      <div class="post-header" (click)="openPost($event, post)">
+        <div class="user-info" *ngIf="!this.showSavedPost">
+          <img
+            [src]="post.community_id.icon_img_src"
+            alt="User Profile Picture"
+            class="user-image"
+            (click)="communityService.displayCommunity(post.community_id._id)"
+          />
+          <div
+            class="user-name"
+            (click)="communityService.displayCommunity(post.community_id._id)"
+          >
+            r/{{ post.community_id.community_name }}
+          </div>
+          <div class="post-time">
+            • {{ postService.timeAgo(post.time_of_posting) }}
+          </div>
+        </div>
+        <button
+          class="dropdown-btn"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          *ngIf="!this.showSavedPost"
+        >
+          •••
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a
+              class="dropdown-item"
+              (click)="saveUnsavePost(post._id, userId, 'push')"
+              *ngIf="!post.isSaved"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                class="bi bi-bookmark"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"
+                />
+              </svg>
+              <span style="margin-left: 10px">Save</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              (click)="saveUnsavePost(post._id, userId, 'pop')"
+              *ngIf="post.isSaved"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                class="bi bi-bookmark-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M2 2v13.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2"
+                />
+              </svg>
+              <span style="margin-left: 10px">Saved</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              *ngIf="!post.is_deleted && userId === post.creator_id"
+              (click)="editPost(post._id)"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                class="bi bi-pencil"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"
+                />
+              </svg>
+              <span style="margin-left: 10px">Edit</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              *ngIf="userId === post.creator_id"
+              (click)="openConfirmationModal()"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                class="bi bi-trash3"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"
+                />
+              </svg>
+              <span style="margin-left: 10px">Delete</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <app-confirmation-modal
+        (confirm)="deletePost(post)"
+        #confirmationModal
+      ></app-confirmation-modal>
+      <app-post-template
+        [post]="post"
+        [isModerator]="false"
+      ></app-post-template>
+      <div class="react-btn-grp" (click)="openPost($event, post)">
+        <div class="react-btn-grp">
+          <app-vote
+            [entity]="{
+              vote_count: post.vote_count,
+              entity_id: post._id,
+              entity_type: 'post'
+            }"
+          ></app-vote>
+          <button class="btn btn-comment" (click)="openPost($event, post)">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              fill="currentColor"
+              class="bi bi-chat-square"
+              viewBox="0 0 16 16"
+              (click)="openPost($event, post)"
+            >
+              <path
+                d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"
+              />
+            </svg>
+            <span
+              style="margin-left: 8px; font-weight: 500"
+              (click)="openPost($event, post)"
+            >
+              {{ post.comment_count }}</span
+            >
+          </button>
+          <button
+            class="btn btn-share"
+            id="liveToastBtn"
+            (click)="helperService.copyText('post/' + post._id)"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              fill="currentColor"
+              class="bi bi-share"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"
+              />
+            </svg>
+            <span style="margin-left: 8px; font-weight: 500"> Share</span>
+          </button>
+        </div>
+        <div
+          class="post-status"
+          *ngIf="post.status === 'pending' && isSelfProfile"
+        >
+          <i
+            class="bi bi-hourglass-bottom"
+            style="font-size: 20px; margin-right: 5px"
+          ></i>
+          Post is under review
+        </div>
+        <div
+          class="post-status"
+          *ngIf="post.status != 'pending' && isSelfProfile"
+        >
+          <i
+            class="bi bi-check2-circle"
+            style="color: green; font-size: 20px; margin-right: 5px"
+            *ngIf="post.status === 'approved'"
+          ></i>
+          <i
+            class="bi bi-x-lg"
+            style="
+              color: rgb(185, 27, 88);
+              margin-right: 5px;
+              height: 20px;
+              width: 20px;
+            "
+            *ngIf="post.status === 'rejected'"
+          ></i>
+          Post {{ post.status }}
+          {{ postService.timeAgo(post.status_changed_at) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

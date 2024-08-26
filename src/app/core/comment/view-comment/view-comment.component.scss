@@ -1,0 +1,192 @@
+.comment-container {
+  border-radius: 4px;
+  padding: 8px;
+  margin: 8px 0;
+  color: #d7dadc;
+  margin-bottom: -15px;
+}
+
+.comment-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.profile-picture {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.username {
+  font-weight: bold;
+  color: #d7dadc;
+}
+
+.time {
+  margin-left: 4px;
+  color: #818384;
+}
+
+.comment-body {
+  margin-bottom: 8px;
+}
+
+.comment-footer {
+  display: flex;
+  align-items: center;
+}
+
+.vote-button {
+  background: none;
+  border: none;
+  color: #818384;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 4px;
+}
+
+.vote-button .upvote-icon,
+.vote-button .downvote-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.vote-count {
+  margin: 0 4px;
+}
+
+.reply-button,
+.more-options-button {
+  background: none;
+  border: none;
+  color: #818384;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.reply-button:hover,
+.more-options-button:hover {
+  color: #d7dadc;
+}
+
+/* Additional styling for more emphasis */
+.comment-container p:first-of-type {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.react-btn-grp {
+  display: flex;
+  align-items: flex-start;
+  margin: 10px;
+  margin-left: -20px !important;
+}
+.btn-comment,
+.btn-share {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 5px;
+  border: none;
+  border-radius: 40px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-comment:hover,
+.btn-share:hover,
+.btn-vote:hover {
+  background-color: #33393f; /* Button background color */
+}
+
+.btn-vote {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  color: white;
+  border-radius: 40px;
+  padding: 5px 10px;
+  margin: 0 5px;
+}
+
+.btn-upvote {
+  padding: 0px;
+  margin-right: 8px;
+  color: white;
+  border-radius: 100%;
+  border: none;
+}
+
+.btn-downvote {
+  padding: 0px;
+  margin-left: 8px;
+  color: white;
+  border-radius: 100%;
+  border: none;
+}
+
+.upvote-count {
+  font-weight: 500;
+}
+
+.btn-upvote:hover {
+  color: red;
+}
+
+.btn-downvote:hover {
+  color: #9580ff;
+}
+
+.hidden {
+  display: none;
+}
+
+.dropdown-btn {
+  color: white;
+  background-color: unset;
+  border-radius: 100px;
+  padding: 4.5px 8px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.dropdown-btn:hover {
+  background-color: #2c3338;
+}
+
+.dropdown-menu {
+  position: absolute;
+  background-color: #20252a;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.363);
+}
+
+.dropdown-item {
+  color: white;
+}
+
+.dropdown-item:hover {
+  background-color: #353a3f;
+}
+
+a {
+  cursor: pointer;
+}
+
+.post-title {
+  margin-left: 5px;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.post-title:hover {
+  text-decoration: underline;
+  color: white;
+}

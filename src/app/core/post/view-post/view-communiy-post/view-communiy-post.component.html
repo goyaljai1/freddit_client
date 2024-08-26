@@ -1,0 +1,196 @@
+<div *ngIf="posts">
+  <div *ngFor="let post of posts">
+    <div
+      *ngIf="
+        ((post.status === 'approved' && !isModerator) || isModerator) &&
+        !post.is_deleted
+      "
+      class="post-container"
+      (click)="openPost($event, post)"
+    >
+      <div class="post-header" (click)="openPost($event, post)">
+        <div class="user-info">
+          <img
+            [src]="post.creator_id.profile_picture_src"
+            alt="User Profile Picture"
+            class="user-image"
+            (click)="userService.displayUser(post.creator_id._id)"
+          />
+          <div
+            class="user-name"
+            (click)="userService.displayUser(post.creator_id._id)"
+          >
+            u/{{ post.creator_id.username }}
+          </div>
+          <div class="post-time">
+            • {{ postService.timeAgo(post.time_of_posting) }}
+          </div>
+        </div>
+        <button
+          class="dropdown-btn"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          •••
+        </button>
+        <ul class="dropdown-menu">
+          <li>
+            <a
+              class="dropdown-item"
+              (click)="saveUnsavePost(post._id, userId, 'push')"
+              *ngIf="!post.isSaved"
+            >
+              <i class="bi bi-bookmark" style="font-size: 16px"></i>
+
+              <span style="margin-left: 10px">Save</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              (click)="saveUnsavePost(post._id, userId, 'pop')"
+              *ngIf="post.isSaved"
+            >
+              <i class="bi bi-bookmark-fill" style="font-size: 16px"></i>
+              <span style="margin-left: 10px">Saved</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              *ngIf="isModerator"
+              (click)="editStatus(post._id)"
+            >
+              <i class="bi bi-check2-square" style="font-size: 16px"></i>
+
+              <span style="margin-left: 10px">Edit Status</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              *ngIf="userId === post.creator_id._id"
+              (click)="editPost(post._id)"
+            >
+              <i class="bi bi-pencil" style="font-size: 16px"></i>
+              <span style="margin-left: 10px">Edit</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              *ngIf="userId === post.creator_id._id"
+              (click)="openConfirmationModal()"
+            >
+              <i class="bi bi-trash3" style="font-size: 18px"></i>
+              <span style="margin-left: 10px">Delete</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <app-confirmation-modal
+        (confirm)="deletePost(post)"
+        #confirmationModal
+      ></app-confirmation-modal>
+
+      <app-post-template [post]="post"></app-post-template>
+      <div class="react-btn-grp" (click)="openPost($event, post)">
+        <div class="react-btn-grp">
+          <app-vote
+            [entity]="{
+              vote_count: post.vote_count,
+              entity_id: post._id,
+              entity_type: 'post'
+            }"
+          ></app-vote>
+          <button class="btn btn-comment" (click)="openPost($event, post)">
+            <i
+              class="bi bi-chat-square"
+              style="font-size: 18px"
+              (click)="openPost($event, post)"
+            ></i>
+
+            <span
+              style="margin-left: 8px; font-weight: 500"
+              (click)="openPost($event, post)"
+            >
+              {{ post.comment_count }}</span
+            >
+          </button>
+          <button
+            class="btn btn-share"
+            id="liveToastBtn"
+            (click)="helperService.copyText('post/' + post._id)"
+          >
+            <i
+              class="bi bi-share"
+              style="font-size: 18px"
+              (click)="openPost($event, post)"
+            ></i>
+            <span style="margin-left: 8px; font-weight: 500"> Share</span>
+          </button>
+        </div>
+        <div
+          class="react-btn-grp"
+          *ngIf="isModerator && post.status === 'pending'"
+        >
+          <button
+            class="btn btn-approve"
+            title="Approve"
+            style="padding: 6px"
+            (click)="approvePost(post._id)"
+          >
+            <i class="bi bi-check2" style="font-size: 18"></i>
+          </button>
+          <button
+            class="btn btn-reject"
+            title="Reject"
+            style="padding: 8px"
+            (click)="rejectPost(post._id)"
+          >
+            <i class="bi bi-x-lg" style="font-size: 16px"></i>
+          </button>
+        </div>
+        <div
+          class="post-status"
+          *ngIf="post.status != 'pending' && isModerator"
+        >
+          <i
+            class="bi bi-check2-circle"
+            style="color: green; font-size: 20px; margin-right: 5px"
+            *ngIf="post.status === 'approved'"
+          ></i>
+          <i
+            class="bi bi-x-lg"
+            style="
+              color: rgb(185, 27, 88);
+              margin-right: 5px;
+              height: 20px;
+              width: 20px;
+            "
+            *ngIf="post.status === 'rejected'"
+          ></i>
+          Post {{ post.status }}
+          {{ postService.timeAgo(post.status_changed_at) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="posts && posts.length === 0"
+  style="
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    padding: 50px;
+  "
+>
+  <img src="assets/no-post.png" alt="" width="60rem" height="auto" />
+  <p>Seems like no one has posted anything...</p>
+</div>

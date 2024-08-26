@@ -1,0 +1,346 @@
+.main-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.form-container {
+  flex: 1;
+  padding: 20px;
+}
+
+.button-group {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.create-post-container {
+  color: white;
+  background-color: #0e1113;
+  padding: 40px;
+  width: 100%;
+}
+
+quill-editor {
+  height: 200px;
+}
+
+.ql-toolbar,
+.ql-snow {
+  background-color: red !important;
+}
+
+.form-group {
+  min-width: 300px;
+  width: 60%;
+  height: max-content;
+  border: 1px dashed grey;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.upload-label {
+  background-color: #181c1f;
+  color: white;
+  padding: 5px 15px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.upload-label svg {
+  margin-right: 8px;
+}
+
+.file-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 20px 0 0 0;
+  border: 0.05px rgba(255, 255, 255, 0.13) solid;
+  max-height: 540px;
+  background-color: rgba(0, 0, 0, 0.562);
+  border-radius: 20px;
+}
+
+.file-image {
+  max-width: 100%; /* Set the maximum width */
+  max-height: 520px; /* Set the maximum height */
+  width: auto; /* Maintain aspect ratio */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Maintain aspect ratio without cropping */
+  border-radius: 0px;
+}
+
+.file-image-container {
+  height: 100%; /* Fixed height container */
+  width: 100%; /* Fill the container's width */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e0e0e0; /* Custom background color */
+}
+
+.file-image-container img {
+  max-height: 80%; /* Ensure image fits within the fixed height */
+  width: auto; /* Maintain aspect ratio */
+}
+
+.file-video {
+  max-width: 80%; /* Ensure it doesn't exceed the container width */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 520px;
+  margin: 0px;
+}
+
+.floating-label-group {
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 25px;
+
+  .floating-label {
+    font-size: 15px;
+    color: #cccccc;
+    position: absolute;
+    pointer-events: none;
+    top: 10px;
+    left: 15px;
+    transition: all 0.3s ease;
+  }
+
+  input:focus ~ .floating-label,
+  input:not(:focus):valid ~ .floating-label {
+    top: -30px;
+    bottom: 0px;
+    left: 5px;
+    font-size: 16px;
+    opacity: 1;
+    color: white;
+  }
+}
+
+input.post-title {
+  width: 60%;
+  background-color: #181c1f;
+  color: white;
+  border: 0px;
+  border-radius: 30px;
+  padding: 10px;
+  font-weight: bold;
+}
+
+input:focus {
+  outline: 1px rgba(255, 255, 255, 0.527) solid;
+}
+
+.remove-button {
+  background-color: unset;
+  margin-bottom: -40px;
+  background-color: #181c1f65;
+  z-index: 10;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.remove-button:hover {
+  background-color: #181c1f;
+}
+
+::ng-deep .custom-quill-editor .ql-container {
+  background-color: #181c1f;
+  border-radius: 0px 0px 20px 20px;
+  border-color: #181c1f;
+  box-shadow: 0 4px 8px rgb(0, 0, 0);
+  max-width: 700px;
+}
+
+::ng-deep .ql-toolbar {
+  background-color: #181c1f;
+  border-radius: 20px 20px 0px 0px;
+  border-color: #181c1f;
+  border: 0px !important;
+  border-bottom: 2px solid #343a40 !important;
+}
+
+::ng-deep .custom-quill-editor .ql-editor {
+  min-height: 200px; /* Minimum height */
+  font-size: 16px; /* Font size */
+  line-height: 1.5; /* Line height */
+  color: #7a7777; /* Text color */
+  padding: 10px; /* Padding */
+}
+
+::ng-deep .custom-quill-editor .ql-editor.ql-blank::before {
+  color: #888; /* Placeholder text color */
+}
+
+::ng-deep .custom-quill-editor .ql-toolbar .ql-formats button {
+  color: #0e1113;
+  border: none; /* Remove border */
+  border-radius: 4px; /* Rounded corners */
+  margin: 2px; /* Spacing between buttons */
+}
+
+::ng-deep .custom-quill-editor .ql-toolbar .ql-formats button:hover,
+::ng-deep .custom-quill-editor .ql-toolbar .ql-formats button.ql-active {
+  background-color: #a1a5a8b2; /* Darker background on hover and active state */
+}
+
+.error-message {
+  margin-top: -3px;
+  margin-left: 8px;
+  color: red;
+  font-size: small;
+}
+
+.btn {
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin-left: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+.btn-cancel {
+  background-color: #f0f0f0;
+  color: #000;
+}
+
+.btn-submit {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-submit:disabled {
+  background-color: #cccccc;
+}
+
+ul {
+  margin-top: 1.5rem;
+  margin-bottom: 2rem !important;
+}
+
+ul li > button {
+  background-color: unset;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px 10px 0px 0px;
+  margin-right: 20px;
+}
+
+li > button.active {
+  border-bottom: white 3px solid;
+  background-color: #1f1e1e !important;
+}
+
+li > button:hover {
+  background-color: #1f1e1e !important;
+}
+
+input.search-bar {
+  margin: 20px 0px;
+  height: 3rem;
+  border-radius: 30px;
+  padding: 10px;
+  padding-left: 20px;
+  border: 0px;
+  outline: none;
+  color: white;
+  font-weight: bold;
+  background-color: #181c1f;
+  box-sizing: border-box;
+}
+
+ul.search-result {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  width: 20%;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #373d42;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+li.search-result-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  color: white;
+  border: 1px white;
+}
+
+li.search-result-item:hover {
+  background-color: #2a2e32 !important;
+}
+
+.selected-community {
+  display: flex;
+  align-items: flex-start;
+  align-content: center;
+  justify-content: space-between;
+  background-color: #181c1f;
+  width: 40%;
+  border-radius: 40px;
+  margin-top: 20px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.selected-community:hover {
+  background-color: #202529;
+}
+
+.selected-community-info {
+  display: flex;
+  align-items: center;
+}
+
+.selected-community-icon {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.selected-community-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.remove-selected-community {
+  background-color: transparent;
+  border: none;
+  color: #323a41;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 10px;
+  transition: color 0.3s ease;
+}
+
+.remove-selected-community:hover {
+  color: #ffffff;
+}
+
+.char-count {
+  font-size: 12px;
+  color: #888;
+  margin-top: 8px;
+  margin-left: 10px;
+}

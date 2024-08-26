@@ -1,0 +1,41 @@
+<h3 class="post-title" (click)="openPost($event, post)">
+  {{ post.title }}
+</h3>
+<div
+  class="post-text"
+  [innerHTML]="post.text | truncate : 400"
+  *ngIf="post.text"
+  (click)="openPost($event, post)"
+></div>
+<div
+  class="image-container"
+  (click)="openFullscreen(post.img_src)"
+  *ngIf="post.img_src"
+>
+  <div
+    class="background-image"
+    [ngStyle]="{ 'background-image': 'url(' + post.img_src + ')' }"
+  ></div>
+  <img [src]="post.img_src" alt="Post Image" class="original-image" />
+</div>
+<div class="fullscreen-modal" *ngIf="isFullscreen">
+  <div class="modal-content">
+    <button class="close-btn" (click)="closeFullscreen()">
+      <i class="bi bi-x-lg"></i>
+    </button>
+    <img [src]="fullScreenImgSrc" alt="Post Image" class="fullscreen-image" />
+  </div>
+</div>
+
+<div class="video-container" *ngIf="post.vid_src">
+  <video
+    autoplay="autoplay"
+    controls="controls"
+    id="vid"
+    [muted]="'muted'"
+    loop
+  >
+    <source [src]="post.vid_src" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+</div>

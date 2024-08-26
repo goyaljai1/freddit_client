@@ -1,0 +1,216 @@
+<div class="main-container d-flex">
+  <div class="middle-content container-fluid" *ngIf="userProfile">
+    <div class="profile-container">
+      <div class="avatar-container">
+        <img [src]="userProfile.profile_picture_src" alt="avatar" id="avatar" />
+      </div>
+      <div class="name-container">
+        <div>
+          <h4 style="margin-bottom: 0px">{{ userProfile.display_name }}</h4>
+          <h6 style="font-size: 0.9rem; color: grey">
+            u/{{ userProfile.username }}
+          </h6>
+        </div>
+      </div>
+    </div>
+    <div class="posts" style="margin-top: -2rem">
+      <div class="nav-tab-pills">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="pills-posts-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#pills-posts"
+              type="button"
+              role="tab"
+              aria-controls="pills-posts"
+              aria-selected="false"
+            >
+              Posts
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="pills-comments-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#pills-comments"
+              type="button"
+              role="tab"
+              aria-controls="pills-comments"
+              aria-selected="false"
+            >
+              Comments
+            </button>
+          </li>
+          <li class="nav-item" role="presentation" *ngIf="isSelfProfile">
+            <button
+              class="nav-link"
+              id="pills-saved-tab"
+              data-bs-toggle="pill"
+              data-bs-target="#pills-saved"
+              type="button"
+              role="tab"
+              aria-controls="pills-saved"
+              aria-selected="false"
+            >
+              Saved
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div class="container-fluid">
+        <div class="button-container">
+          <button
+            class="btn btn-create-post"
+            *ngIf="isSelfProfile"
+            [routerLink]="['/createPost']"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-plus-lg"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"
+              />
+            </svg>
+            Create a post
+          </button>
+          <div class="dropdown">
+            <button
+              class="btn dropdown-toggle btn-sort"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {{ sortMethod }}
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" (click)="sendEvent('New')">New</a>
+              </li>
+              <li>
+                <a class="dropdown-item" (click)="sendEvent('Most Upvoted')"
+                  >Most Upvoted</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="pills-tabContent">
+        <div
+          class="tab-pane fade show active"
+          id="pills-posts"
+          role="tabpanel"
+          aria-labelledby="pills-posts-tab"
+        >
+          <div
+            class="tab-container"
+            *ngIf="userProfile.created_post_ids.length === 0"
+          >
+            <img src="assets/no-post.png" alt="" width="60rem" height="auto" />
+            <p>u/testUser hasn't posted yet</p>
+          </div>
+          <div *ngIf="userProfile.created_post_ids.length != 0">
+            <app-view-user-post
+              [userId]="userProfile._id!"
+              [isSelfProfile]="isSelfProfile"
+              [sortPost]="sortPost"
+            ></app-view-user-post>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="pills-comments"
+          role="tabpanel"
+          aria-labelledby="pills-comments-tab"
+        >
+          <div *ngFor="let comment of comments">
+            <app-view-user-comment [comment]="comment"></app-view-user-comment>
+          </div>
+          <div class="tab-container" *ngIf="comments && comments.length === 0">
+            <img src="assets/no-post.png" alt="" width="60rem" height="auto" />
+            <p>u/testUser hasn't posted yet</p>
+          </div>
+        </div>
+        <div
+          class="tab-pane fade"
+          id="pills-saved"
+          role="tabpanel"
+          aria-labelledby="pills-saved-tab"
+        >
+          <div
+            class="tab-container"
+            *ngIf="userProfile.saved_post_ids.length === 0"
+          >
+            <img src="assets/no-post.png" alt="" width="60rem" height="auto" />
+            <p>You haven't saved a post yet</p>
+          </div>
+          <div *ngIf="userProfile.saved_post_ids.length != 0">
+            <app-view-user-post
+              [userId]="userProfile._id!"
+              [isSelfProfile]="isSelfProfile"
+              [sortPost]="sortPost"
+              [showSavedPost]="true"
+              [savedPostIds]="userProfile.saved_post_ids"
+            ></app-view-user-post>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="right-sidebar" *ngIf="userProfile">
+    <div class="profile-card">
+      <div class="profile-header">{{ userProfile.display_name }}</div>
+      <div class="profile-details">
+        <ul>
+          <li>{{ userProfile.about_description }}</li>
+          <li>
+            <i class="bi bi-postcard" style="margin-right: 10px"></i>Post Karma:
+            {{ postKarma }}
+          </li>
+          <li>
+            <i class="bi bi-chat-left-text" style="margin-right: 10px"></i
+            >Comment Karma: {{ commentKarma }}
+          </li>
+          <li>
+            <i class="bi bi-cake2" style="margin-right: 10px"></i>Cake day:
+            {{ userProfile.cake_day }}
+          </li>
+        </ul>
+      </div>
+      <div class="profile-details" *ngIf="userCommunities.length > 0">
+        <p>MODERATOR</p>
+        <ul>
+          <div class="community_name" *ngFor="let community of userCommunities">
+            <li
+              style="cursor: pointer"
+              (click)="communityService.displayCommunity(community._id!)"
+            >
+              <img
+                [src]="community.icon_img_src"
+                alt="community_icon"
+                class="community_icon"
+                (click)="communityService.displayCommunity(community._id!)"
+              />
+
+              r/{{ community.community_name }}
+            </li>
+          </div>
+        </ul>
+      </div>
+
+      <div class="profile-settings" *ngIf="isSelfProfile">
+        <a [routerLink]="['editProfile']"><button>Edit Profile</button></a>
+      </div>
+    </div>
+  </div>
+</div>

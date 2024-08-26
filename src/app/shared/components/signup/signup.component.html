@@ -1,0 +1,297 @@
+<!-- Enter-Email -->
+<div
+  class="modal fade"
+  id="signupModal"
+  tabindex="-1"
+  aria-labelledby="signUpModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header" style="border-bottom: 0px">
+        <h1 class="modal-title fs-5" id="signUpModalLabel">Sign Up</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="signup-container">
+        <form [formGroup]="signupForm1">
+          <div class="form-group">
+            <input
+              type="text"
+              formControlName="email"
+              placeholder="Email"
+              maxlength="30"
+            />
+            <div
+              *ngIf="email && email.invalid && email.dirty"
+              class="invalid-message"
+            >
+              <div *ngIf="email.errors?.['required']">Email is required.</div>
+              <div *ngIf="email.errors?.['email']">
+                Please enter a valid email address.
+              </div>
+              <div *ngIf="email.errors?.['emailExists']">
+                This email is already registered.
+              </div>
+            </div>
+          </div>
+          <div style="display: inline-flex; margin-bottom: 4rem">
+            <p style="margin-right: 1rem">Already a redditor?</p>
+            <a
+              href=""
+              style="margin-bottom: 1rem"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              >Log In</a
+            >
+          </div>
+          <button
+            type="submit"
+            [disabled]="!signupForm1.valid"
+            class="signup-btn-submit"
+            data-bs-toggle="modal"
+            data-bs-target="#userNameModal"
+          >
+            Continue
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Username and Password -->
+<div
+  class="modal fade"
+  id="userNameModal"
+  tabindex="-1"
+  aria-labelledby="userNameModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div
+        class="modal-header"
+        style="
+          border-bottom: 0px;
+          justify-content: space-between;
+          align-items: center;
+          display: flex;
+        "
+      >
+        <h1 class="modal-title fs-5" id="userNameModalLabel">
+          Create your username and password
+        </h1>
+
+        <button
+          type="button"
+          data-bs-dismiss="modal"
+          class="btn btn-back"
+          data-bs-toggle="modal"
+          data-bs-target="#signupModal"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-arrow-left"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+            />
+          </svg>
+        </button>
+      </div>
+      <div style="padding: 20px">
+        <h2 class="modal-title fs-6">
+          Reddit is anonymous, so your username is what you’ll go by here.
+          Choose wisely—because once you get a name, you can’t change it.
+        </h2>
+      </div>
+      <div class="signup-container">
+        <form [formGroup]="signupForm2">
+          <div class="form-group">
+            <input
+              type="text"
+              formControlName="username"
+              placeholder="Username"
+              minlength="4"
+              maxlength="20"
+            />
+            <div *ngIf="username && username.dirty" class="invalid-message">
+              <div
+                *ngIf="
+                  signupForm2.get('username')?.hasError('minlength') &&
+                  signupForm2.get('username')?.touched
+                "
+              >
+                Username must be of 4 characters long.
+              </div>
+              <div *ngIf="username.errors?.['usernameExists']">
+                This username is already in use. Please try a different
+                username.
+              </div>
+              <div *ngIf="username?.hasError('noSpace')">
+                Username cannot contain spaces.
+              </div>
+            </div>
+            <input
+              type="password"
+              formControlName="password"
+              placeholder="Password"
+              minlength="6"
+              autocomplete="on"
+              maxlength="20"
+            />
+            <div
+              *ngIf="
+                signupForm2.get('password')?.hasError('minlength') &&
+                signupForm2.get('password')?.touched
+              "
+              class="invalid-message"
+            >
+              Password must be at least 6 characters long.
+            </div>
+          </div>
+          <button
+            type="submit"
+            [disabled]="!signupForm2.valid"
+            class="signup-btn-submit"
+            data-bs-toggle="modal"
+            data-bs-target="#interestsModal"
+          >
+            Continue
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Interests -->
+<div
+  class="modal fade"
+  id="interestsModal"
+  tabindex="-1"
+  aria-labelledby="interestsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div
+        class="modal-header"
+        style="
+          border-bottom: 0px;
+          justify-content: space-between;
+          align-items: center;
+          display: flex;
+        "
+      >
+        <h1 class="modal-title fs-5" id="interestsModalLabel">Interests</h1>
+
+        <button
+          type="button"
+          data-bs-dismiss="modal"
+          class="btn btn-back"
+          data-bs-toggle="modal"
+          data-bs-target="#userNameModal"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-arrow-left"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+            />
+          </svg>
+        </button>
+      </div>
+      <div style="padding: 20px">
+        <h2 class="modal-title fs-6">
+          Pick things you'd like to see in your home feed.
+        </h2>
+      </div>
+      <div class="signup-container">
+        <div class="trending-header">
+          <h5>📈 Trending</h5>
+        </div>
+        <div class="trending-topics">
+          <div *ngFor="let topic of trendingInterests" class="trending-topic">
+            <button
+              class="interest-button"
+              (click)="toggleInterest(topic)"
+              [class.selected]="selected_interests.includes(topic)"
+            >
+              {{ topic }}
+            </button>
+          </div>
+        </div>
+        <div class="trending-header">
+          <h5>🏏 Sports</h5>
+        </div>
+        <div class="trending-topics">
+          <div *ngFor="let topic of sportsInterests" class="trending-topic">
+            <button
+              class="interest-button"
+              (click)="toggleInterest(topic)"
+              [class.selected]="selected_interests.includes(topic)"
+            >
+              {{ topic }}
+            </button>
+          </div>
+        </div>
+        <div class="trending-header">
+          <h5>🎶 Music</h5>
+        </div>
+        <div class="trending-topics">
+          <div *ngFor="let topic of musicInterests" class="trending-topic">
+            <button
+              class="interest-button"
+              (click)="toggleInterest(topic)"
+              [class.selected]="selected_interests.includes(topic)"
+            >
+              {{ topic }}
+            </button>
+          </div>
+        </div>
+        <div class="trending-header">
+          <h5>🚢 Travel</h5>
+        </div>
+        <div class="trending-topics">
+          <div *ngFor="let topic of travelInterests" class="trending-topic">
+            <button
+              class="interest-button"
+              (click)="toggleInterest(topic)"
+              [class.selected]="selected_interests.includes(topic)"
+            >
+              {{ topic }}
+            </button>
+          </div>
+        </div>
+        <button
+          type="submit"
+          [disabled]="!checkSubmitButton()"
+          (click)="signupFinal()"
+          class="signup-btn-submit"
+          data-bs-toggle="modal"
+          data-bs-target="#interestsModal"
+          style="margin-top: 2rem"
+        >
+          Select at least 3 to sign up
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

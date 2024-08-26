@@ -1,0 +1,12 @@
+<div class="user-info">
+  <img
+    [src]="imgSrc"
+    alt="User Profile Picture"
+    class="user-image"
+    (click)="userService.displayUser(post.tempUser._id)"
+  />
+  <div class="user-name" (click)="userService.displayUser(post.tempUser._id)">
+    u/{{ post.tempUser.username }}
+  </div>
+  <div class="post-time">• {{ postService.timeAgo(post.time_of_posting) }}</div>
+</div>

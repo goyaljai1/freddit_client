@@ -1,0 +1,218 @@
+<div class="main-container" style="height: 100vh">
+  <div class="form-container">
+    <form
+      *ngIf="!isCommunityFormSubmitted"
+      [formGroup]="communityForm"
+      (ngSubmit)="handleSubmit()"
+    >
+      <h3>Tell us about your community</h3>
+      <p>
+        A name and description help people understand what your community is all
+        about
+      </p>
+
+      <div class="form-group">
+        <label for="communityName">Community Name *</label>
+        <input
+          id="communityName"
+          formControlName="communityName"
+          type="text"
+          placeholder="Community name"
+          autocomplete="off"
+          maxlength="20"
+          minlength="4"
+        />
+
+        <div
+          *ngIf="communityForm.get('communityName')?.touched"
+          class="error-message"
+        >
+          <!-- Required Field Error -->
+          <div *ngIf="communityForm.get('communityName')?.errors?.['required']">
+            Community name is required.
+          </div>
+
+          <!-- Custom Validator Error (e.g., Name Already Exists) -->
+          <div
+            *ngIf="communityForm.get('communityName')?.errors?.['communityNameExists']"
+          >
+            Community name already exists. Please choose a different name.
+          </div>
+
+          <div
+            *ngIf="communityForm.get('communityName')?.errors?.['minlength']"
+          >
+            Minimum length for community name is 4 characters.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Enter description *</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          placeholder="Description"
+          maxlength="300"
+          minlength="30"
+        ></textarea>
+        <div
+          *ngIf="
+            communityForm.get('description')?.invalid &&
+            communityForm.get('description')?.touched
+          "
+          class="error-message"
+        >
+          Description is required with minimum length of 30 characters.
+        </div>
+      </div>
+
+      <div class="community-preview">
+        <h4>r/{{ communityName.replaceAll(" ", "_") }}</h4>
+        <p>1 member · 1 online</p>
+        <div class="community-des-preview" style="max-width: 300px">
+          <span
+            style="max-width: 300px; display: block; word-wrap: break-word"
+            >{{ description }}</span
+          >
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" (click)="handleCancel()">Cancel</button>
+        <button type="submit" [disabled]="communityForm.invalid">Next</button>
+      </div>
+    </form>
+
+    <form *ngIf="isCommunityFormSubmitted && !isStylingCompleted">
+      <h4>Style Your Community</h4>
+      <p>
+        Adding visual flair will catch new members' attention and help establish
+        your community’s culture! You can update this at any time.
+      </p>
+
+      <div class="form-group">
+        <button (click)="triggerBannerUpload()">Add Banner</button>
+        <input
+          type="file"
+          id="banner"
+          (change)="handleFileChange($event, 'banner')"
+          style="display: none"
+          accept=".jpg, .png"
+        />
+      </div>
+
+      <div class="form-group">
+        <button (click)="triggerIconUpload()">Add Icon</button>
+        <input
+          type="file"
+          id="icon"
+          (change)="handleFileChange($event, 'icon')"
+          style="display: none"
+          accept=".jpg, .png"
+        />
+      </div>
+
+      <div class="community-preview">
+        <div *ngIf="banner" class="banner-preview">
+          <img [src]="banner" alt="Community Banner" />
+        </div>
+        <div class="content">
+          <div class="icon-name">
+            <div *ngIf="icon" class="icon-preview">
+              <img [src]="icon" alt="Community Icon" />
+            </div>
+            <h5>r/{{ communityName.replaceAll(" ", "_") }}</h5>
+          </div>
+          <p>1 member · 1 online</p>
+          <div class="community-des-preview" style="max-width: 300px">
+            <span
+              style="max-width: 300px; display: block; word-wrap: break-word"
+              >{{ description }}</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" (click)="handleBackToCommunityForm()">
+          Back
+        </button>
+        <button type="button" (click)="handleStyleSubmit()">Next</button>
+      </div>
+    </form>
+
+    <form *ngIf="isTopicSelectionActive" [formGroup]="communityForm">
+      <h4>Select Topics for Your Community</h4>
+      <p>Choose at least 3 topics that describe your community.</p>
+
+      <div class="trending">
+        <h5>📈 Trending</h5>
+      </div>
+      <div class="trending-topics">
+        <div *ngFor="let topic of trendingTopics" class="trending-topic">
+          <button
+            class="interest-button"
+            (click)="toggleTopicSelection(topic)"
+            [class.selected]="selectedTopics.includes(topic)"
+          >
+            {{ topic }}
+          </button>
+        </div>
+      </div>
+      <div class="trending-header">
+        <h5>🏏 Sports</h5>
+      </div>
+      <div class="trending-topics">
+        <div *ngFor="let topic of sportsTopics" class="trending-topic">
+          <button
+            class="interest-button"
+            (click)="toggleTopicSelection(topic)"
+            [class.selected]="selectedTopics.includes(topic)"
+          >
+            {{ topic }}
+          </button>
+        </div>
+      </div>
+      <div class="trending-header">
+        <h5>🎶 Music</h5>
+      </div>
+      <div class="trending-topics">
+        <div *ngFor="let topic of musicTopics" class="trending-topic">
+          <button
+            class="interest-button"
+            (click)="toggleTopicSelection(topic)"
+            [class.selected]="selectedTopics.includes(topic)"
+          >
+            {{ topic }}
+          </button>
+        </div>
+      </div>
+      <div class="trending-header">
+        <h5>🚢 Travel</h5>
+      </div>
+      <div class="trending-topics">
+        <div *ngFor="let topic of travelTopics" class="trending-topic">
+          <button
+            class="interest-button"
+            (click)="toggleTopicSelection(topic)"
+            [class.selected]="selectedTopics.includes(topic)"
+          >
+            {{ topic }}
+          </button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" (click)="handleBackToStyling()">Back</button>
+        <button
+          type="submit"
+          [disabled]="!canSubmit()"
+          (click)="handleFinalSubmit()"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

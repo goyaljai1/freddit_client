@@ -1,0 +1,84 @@
+<div class="dropdown">
+  <form class="form-inline" (ngSubmit)="onSubmit()">
+    <label>
+      <input
+        id="login-input"
+        class="label-icon-colored"
+        type="search"
+        (focus)="beginSearch()"
+        placeholder="Search Reddit"
+        aria-label="Search"
+        [(ngModel)]="searchTerm"
+        name="searchTerm"
+        (input)="filterResults()"
+        *ngIf="!selectedId"
+        autocomplete="off"
+      />
+    </label>
+  </form>
+  <div
+    class="dropdown-menu show"
+    *ngIf="
+      searchTerm.length > 0 &&
+      (filteredCommunity.length > 0 || filteredUsers.length > 0) &&
+      !selectedId
+    "
+  >
+    <ul style="margin-bottom: 0; padding-left: 0">
+      <li
+        class="dropdown-item"
+        style="color: white"
+        *ngIf="filteredCommunity.length > 0"
+      >
+        Communities
+      </li>
+      <div class="search-results-container">
+        <li
+          *ngFor="let community of filteredCommunity"
+          (click)="displayCommunity(community._id)"
+          class="dropdown-item search-result-item"
+          style="color: white; cursor: pointer"
+        >
+          <img
+            [src]="community.icon_img_src"
+            alt="Community Icon"
+            class="profile-picture"
+            style="cursor: pointer"
+          />
+          r/{{ community.community_name }}
+        </li>
+      </div>
+      <li
+        class="dropdown-item"
+        [ngStyle]="{
+          color: 'white',
+          marginTop: '10px',
+          borderTop:
+            filteredCommunity.length > 0
+              ? '1px solid rgba(138, 135, 135, 0.425)'
+              : 'none',
+          paddingTop: filteredCommunity.length > 0 ? '10px' : '0'
+        }"
+        *ngIf="filteredUsers.length > 0"
+      >
+        People
+      </li>
+      <div class="search-results-container">
+        <li
+          *ngFor="let user of filteredUsers"
+          (click)="displayUser(user._id)"
+          class="dropdown-item search-result-item"
+          style="color: white; cursor: pointer"
+        >
+          <img
+            [src]="user.profile_picture_src"
+            alt="User Profile Picture"
+            class="profile-picture"
+            style="cursor: pointer"
+          />
+          u/{{ user.username }}
+        </li>
+      </div>
+    </ul>
+  </div>
+</div>

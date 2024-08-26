@@ -1,0 +1,406 @@
+<div class="main-container">
+  <div class="settings-wrapper">
+    <div class="settings-container">
+      <h1>Community Settings</h1>
+
+      <div class="tab-content" id="pills-tabContent">
+        <div>
+          <div id="profile" class="tab-content active">
+            <h4>General</h4>
+            <div class="settings-item">
+              <div class="text-container">
+                <label>Community Display Name</label>
+                <span style="color: grey"
+                  >Changing your display name won’t change your username</span
+                >
+              </div>
+              <!-- Button trigger modal -->
+              <button
+                type="button"
+                class="btn btn-secondary modal-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-chevron-right"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
+                  />
+                </svg>
+              </button>
+
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div
+                      class="modal-header"
+                      style="border-bottom: 0px; background-color: grey"
+                    >
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">
+                        Display Name
+                      </h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body" style="background-color: grey">
+                      <form
+                        [formGroup]="updateDisplayName"
+                        (ngSubmit)="
+                          communityService.updateCommunity(
+                            community._id!,
+                            'display_name',
+                            updateDisplayName.get('display_name')?.value
+                          )
+                        "
+                        *ngIf="updateDisplayName"
+                      >
+                        <div class="form-group">
+                          <div>
+                            Changing your display name won't change your
+                            username
+                          </div>
+                          <input
+                            type="text"
+                            formControlName="display_name"
+                            required
+                          />
+                          <div
+                            *ngIf="
+                              updateDisplayName.get('display_name')?.invalid &&
+                              updateDisplayName.get('display_name')?.touched
+                            "
+                            class="error"
+                          >
+                            Display Name is required.
+                          </div>
+                        </div>
+
+                        <button
+                          type="submit"
+                          class="login-btn-submit"
+                          [disabled]="updateDisplayName.invalid"
+                          (click)="closeModal('exampleModal')"
+                        >
+                          Update
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <div class="text-container">
+                <label>Community Icon</label>
+                <span style="color: grey">Upload your Community Icon</span>
+              </div>
+              <!-- Button trigger modal -->
+
+              <button
+                type="button"
+                class="btn btn-secondary modal-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#uploadIconModal"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-chevron-right"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
+                  />
+                </svg>
+              </button>
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="uploadIconModal"
+                tabindex="-1"
+                aria-labelledby="uploadIconModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div
+                      class="modal-header"
+                      style="border-bottom: 0px; background-color: grey"
+                    >
+                      <h1 class="modal-title fs-5" id="uploadIconModalLabel">
+                        Icon Image
+                      </h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body" style="background-color: grey">
+                      <form [formGroup]="updateIcon" *ngIf="updateIcon">
+                        <div class="form-group">
+                          <div>
+                            <img
+                              [src]="community.icon_img_src"
+                              alt="Community Icon"
+                              height="60px"
+                              width="60px"
+                            />
+                          </div>
+                          <input
+                            type="file"
+                            id="iconImage"
+                            (change)="onFileSelected($event, 'icon')"
+                            style="display: none"
+                            accept=".jpg, .png"
+                          />
+                          <label for="iconImage">Select a New Icon</label>
+
+                          <div
+                            *ngIf="
+                              updateIcon.get('icon_image')?.invalid &&
+                              updateIcon.get('icon_image')?.touched
+                            "
+                            class="error"
+                          >
+                            Image file is required.
+                          </div>
+                        </div>
+
+                        <button
+                          type="submit"
+                          class="login-btn-submit"
+                          [disabled]="updateIcon.invalid"
+                          (click)="onUpload('communityIcon', 'uploadIconModal')"
+                        >
+                          Update
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <div class="text-container">
+                <label>Community Banner</label>
+                <span style="color: grey">Upload your Community Banner</span>
+              </div>
+              <!-- Button trigger modal -->
+
+              <button
+                type="button"
+                class="btn btn-secondary modal-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#uploadBannerModal"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-chevron-right"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
+                  />
+                </svg>
+              </button>
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="uploadBannerModal"
+                tabindex="-1"
+                aria-labelledby="uploadBannerModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div
+                      class="modal-header"
+                      style="border-bottom: 0px; background-color: grey"
+                    >
+                      <h1 class="modal-title fs-5" id="uploadBannerModalLabel">
+                        Banner Image
+                      </h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body" style="background-color: grey">
+                      <form [formGroup]="uploadBanner" *ngIf="uploadBanner">
+                        <div class="form-group">
+                          <div>
+                            <img
+                              [src]="community.banner_img_src"
+                              alt="Profile Picture"
+                              height="60px"
+                              width="60px"
+                            />
+                          </div>
+                          <input
+                            type="file"
+                            id="bannerImage"
+                            (change)="onFileSelected($event, 'banner')"
+                            style="display: none"
+                            accept=".jpg, .png"
+                          />
+                          <label for="bannerImage">Select a New Banner</label>
+
+                          <div
+                            *ngIf="
+                              uploadBanner.get('display_banner')?.invalid &&
+                              uploadBanner.get('display_banner')?.touched
+                            "
+                            class="error"
+                          >
+                            Display Name is required.
+                          </div>
+                        </div>
+
+                        <button
+                          type="submit"
+                          class="login-btn-submit"
+                          [disabled]="uploadBanner.invalid"
+                          (click)="
+                            onUpload('communityBanner', 'uploadBannerModal')
+                          "
+                        >
+                          Update
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-item">
+              <div class="text-container">
+                <label>About Description</label>
+              </div>
+              <!-- Button trigger modal -->
+
+              <button
+                type="button"
+                class="btn btn-secondary modal-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#descriptionModal"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-chevron-right"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"
+                  />
+                </svg>
+              </button>
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="descriptionModal"
+                tabindex="-1"
+                aria-labelledby="descriptionModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div
+                      class="modal-header"
+                      style="border-bottom: 0px; background-color: grey"
+                    >
+                      <h1 class="modal-title fs-5" id="descriptionModalLabel">
+                        About Description
+                      </h1>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body" style="background-color: grey">
+                      <form
+                        [formGroup]="updateDescription"
+                        (ngSubmit)="
+                          communityService.updateCommunity(
+                            this.community._id!,
+                            'description',
+                            updateDescription.get('description')?.value
+                          )
+                        "
+                        *ngIf="updateDescription"
+                      >
+                        <div class="form-group">
+                          <div>Give a brief description of your community</div>
+                          <input
+                            type="text"
+                            formControlName="description"
+                            required
+                          />
+                          <div
+                            *ngIf="
+                              updateDescription.get('display_name')?.invalid &&
+                              updateDescription.get('display_name')?.touched
+                            "
+                            class="error"
+                          >
+                            Display Name is required.
+                          </div>
+                        </div>
+
+                        <button
+                          type="submit"
+                          class="login-btn-submit"
+                          [disabled]="updateDescription.invalid"
+                          (click)="closeModal('descriptionModal')"
+                        >
+                          Update
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

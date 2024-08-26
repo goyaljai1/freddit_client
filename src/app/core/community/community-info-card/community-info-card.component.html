@@ -1,0 +1,65 @@
+<div class="community-info-card scroll-element" #scrollElement>
+  <div class="card text-light" style="background-color: unset">
+    <div class="card-body" *ngIf="community">
+      <h6 class="card-title">{{ community.display_name }}</h6>
+      <p class="card-text" *ngIf="!showMore">
+        {{ community.description | truncate : 170 }}
+      </p>
+
+      <p class="card-text" *ngIf="showMore">{{ community.description }}</p>
+      <button
+        *ngIf="community.description.length > 170"
+        class="btn btn-primary show-more-btn btn-sm"
+        (click)="expandContractText()"
+      >
+        <span *ngIf="!showMore"> Show More</span>
+        <span *ngIf="showMore"> Show Less</span>
+      </button>
+
+      <hr />
+      <div style="display: flex; justify-content: space-between">
+        <div style="text-align: center">
+          <h6 class="card-title">MEMBERS</h6>
+
+          <p class="card-text">{{ community.members_ids.length }} Members</p>
+        </div>
+      </div>
+
+      <hr />
+      <h6 class="card-title">MODERATOR</h6>
+      <p
+        *ngIf="moderator"
+        (click)="userService.displayUser(moderator._id!)"
+        style="cursor: pointer"
+      >
+        <img
+          [src]="moderator.profile_picture_src"
+          alt="Mod Icon"
+          class="rounded-circle"
+          style="width: 30px; height: 30px; margin-right: 10px"
+        />
+        <a style="cursor: pointer"> u/{{ moderator.username }} </a>
+      </p>
+
+      <div *ngIf="isModerator">
+        <hr />
+        <h6 class="card-title">COMMUNITY SETTINGS</h6>
+        <button
+          class="btn btn-outline-light btn-sm w-60"
+          [routerLink]="['settings']"
+        >
+          Community Settings
+        </button>
+      </div>
+      <hr />
+      <h6 class="card-title">TOPICS</h6>
+      <div class="container">
+        <div class="topics-container">
+          <div *ngFor="let topic of community.topics" class="topic-item">
+            <p class="topic-text">{{ topic }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

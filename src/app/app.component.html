@@ -1,0 +1,8 @@
+<app-low-resolution-wrapper
+  *ngIf="showLowResolution"
+></app-low-resolution-wrapper>
+
+<main *ngIf="!showLowResolution">
+  <app-navbar></app-navbar>
+  <app-content></app-content>
+</main>
